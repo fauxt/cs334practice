@@ -1,9 +1,4 @@
 
-import os
-from configparser import ConfigParser
-from dotenv import load_dotenv
-from os import getenv
-
 class Config:
 
     def get_delay(self):
