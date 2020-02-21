@@ -20,7 +20,7 @@ pipeline {
       steps {
         sh '''
           . .venv/bin/activate
-          pytest
+          pytest --cov=cs334demo --cov-fail-under=95
         '''
       }
     }
