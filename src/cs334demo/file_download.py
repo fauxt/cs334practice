@@ -1,22 +1,24 @@
-import requests
+from cs334demo import customError
 from dotenv import load_dotenv, find_dotenv
-import os;
+import os
+import requests
 
 
 def download_file(URL, api_key):
     data = requests.get(url=URL+api_key+'&rpp=1')
+    if data.status_code == 403:
+        raise customError.IncorrectApiKey
+    if data.status_code == 429:
+        raise customError.ThousandCalls
     document = data.json()
-    print(document)
     return document
 
 
 def main():
     load_dotenv(find_dotenv())
     api_key = os.getenv("API_KEY")
-
     result = download_file('https://api.data.gov:443/regulations/v3/documents.json?', 'api_key=' + api_key)
     print(result)
-
 
 if __name__ == "__main__":
     main()
