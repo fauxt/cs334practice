@@ -4,12 +4,17 @@ import os
 import requests
 
 
-def download_file(URL, api_key):
-    data = requests.get(url=URL+api_key+'&rpp=1')
+def download_file(URL, api_key, documentId = ""):
+    if(documentId == ""):
+        data = requests.get(url=URL + api_key + '&rpp=1')
+    else:
+        data = requests.get(url=URL + api_key + "documentId=" + documentId)
     if data.status_code == 403:
         raise customError.IncorrectApiKey
     if data.status_code == 429:
         raise customError.ThousandCalls
+    if data.status_code == 404:
+        raise customError.BadID
     document = data.json()
     return document
 
